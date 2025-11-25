@@ -2,6 +2,8 @@
 
 <template>
 <body>
+    <img src="./assets/images/Leaf-Icon-PNG-Photos.png" alt="Leaf" class="floating-leaf">
+    <img src="./assets/images/portable-network-graphics-vector-graphics-clip-art-image-cloud-png-favpng-HHPjKeJvv8gnjVCBFyR7Zxm77-removebg-preview.png" alt="cloud" class="floating-cloud">
     <header>
         <h1>Carbon Race</h1>
     </header>
