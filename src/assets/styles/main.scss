@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+@font-face {
+  font-family: 'Moon Get';
+  src: url('../font/moon_get-Heavy.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+p {
+  font-family: 'Montserrat', sans-serif;
+}
+
+button {
+  font-family: 'Arial', sans-serif;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+body {
+  font-family: 'Moon Get', sans-serif;
+  background-color: #f7efe8;
+  padding: 0 20px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  height: 100dvh;
+
+  header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 50px;
+
+    h1 {
+      font-size: 28px;
+      text-align: center;
+    }
+  }
+
+  .hero {
+    margin-bottom: 50PX;
+    p {
+      font-size: 14px;
+      text-align: center;
+    }
+  }
+
+  .button-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+
+    button {
+      background-color: #cfe8a6;
+      border-radius: 16px;
+      padding: 10px 20px;
+      border: none;
+      width: 70%;
+      transform: all ease 0.4s;
+      box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.2);
+    }
+  }
+}
