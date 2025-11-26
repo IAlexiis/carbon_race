@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-<body>
+<div class="home-page">
     <img src="../assets/images/Leaf-Icon-PNG-Photos.png" alt="Leaf" class="floating-leaf">
     <img src="../assets/images/portable-network-graphics-vector-graphics-clip-art-image-cloud-png-favpng-HHPjKeJvv8gnjVCBFyR7Zxm77-removebg-preview.png" alt="cloud" class="floating-cloud">
     <header>
@@ -19,7 +19,104 @@
             <button>Answers</button>
         </router-link>
     </div>
-</body>
+</div>
 </template>
 
-<style scoped></style>
+<style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+@font-face {
+  font-family: 'Moon Get';
+  src: url('../assets/font/moon_get-Heavy.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.home-page {
+  font-family: 'Moon Get', sans-serif;
+  background-color: #f7efe8;
+  padding: 0 20px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  height: 100dvh;
+  position: relative;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.floating-leaf {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  width: 70px;
+  height: auto;
+  opacity: 0.8;
+  transform: rotate(45deg);
+}
+
+.floating-cloud {
+  position: absolute;
+  bottom: 30px;
+  right: 25px;
+  width: 150px;
+  height: auto;
+  opacity: 0.8;
+  transform: rotate(20deg);
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 50px;
+}
+
+h1 {
+  font-size: 28px;
+  text-align: center;
+}
+
+.hero {
+  margin-bottom: 50px;
+}
+
+.hero p {
+  font-size: 14px;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.button-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.button-section a {
+  width: 70%;
+  text-decoration: none;
+}
+
+button {
+  background-color: #cfe8a6;
+  border-radius: 16px;
+  padding: 10px 20px;
+  border: none;
+  width: 100%;
+  font-family: 'Arial', sans-serif;
+  font-weight: bold;
+  font-size: 18px;
+  box-shadow: 3px -5px 0px #9dc56d;
+  color: black;
+  cursor: pointer;
+}
+</style>
