@@ -76,16 +76,6 @@ const getZoneClass = (zone) => {
   return zoneClasses[zone] || ''
 }
 
-const getZoneEmoji = (zone) => {
-  const zoneEmojis = {
-    1: '📱',
-    2: '🌐',
-    3: '💻',
-    4: '🖥️'
-  }
-  return zoneEmojis[zone] || ''
-}
-
 const groupedCards = computed(() => {
   const grouped = {}
   filteredCards.value.forEach(card => {
@@ -131,7 +121,7 @@ const groupedCards = computed(() => {
             <!-- Grouped Cards by Zone -->
             <template v-for="(zoneData, zoneNumber) in groupedCards" :key="zoneNumber">
                 <section class="zone-section" :class="getZoneClass(parseInt(zoneNumber))">
-                    <h2>{{ getZoneEmoji(parseInt(zoneNumber)) }} Zone {{ zoneNumber }}: {{ zoneData.zoneName }}</h2>
+                    <h2>Zone {{ zoneNumber }}: {{ zoneData.zoneName }}</h2>
                     
                     <div class="card-group">
                         <h3>Choice Cards Answers</h3>
@@ -292,14 +282,13 @@ const groupedCards = computed(() => {
 }
 
 .card-group {
-  background-color: white;
   padding: 15px;
   border-radius: 10px;
   margin-top: 15px;
 }
 
 .card-group h3 {
-  font-family: 'Moon Get', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-size: 13px;
   color: #2d5016;
   margin-bottom: 15px;
