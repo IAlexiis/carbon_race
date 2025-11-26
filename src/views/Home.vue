@@ -132,16 +132,16 @@ button {
   box-shadow: 3px -5px 0px #9dc56d;
   color: #2d5016;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.15s ease, filter 0.15s ease;
 }
 
 button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0px 6px 0px #9dc56d, 0px 8px 16px rgba(0, 0, 0, 0.2);
+  transform: scale(1.02);
+  filter: brightness(1.05);
 }
 
 button:active {
-  transform: translateY(2px);
-  box-shadow: 0px 2px 0px #9dc56d, 0px 4px 8px rgba(0, 0, 0, 0.1);
+  transform: scale(0.98);
+  filter: brightness(0.95);
 }
 </style>

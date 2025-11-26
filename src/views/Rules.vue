@@ -352,5 +352,16 @@ button {
   box-shadow: 3px -5px 0px #9dc56d;
   color: #2d5016;
   cursor: pointer;
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+button:hover {
+  transform: scale(1.02);
+  filter: brightness(1.05);
+}
+
+button:active {
+  transform: scale(0.98);
+  filter: brightness(0.95);
 }
 </style>
