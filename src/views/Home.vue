@@ -40,7 +40,7 @@
 }
 
 .home-page {
-  background-color: #f7efe8;
+  background-color: #b4d288;
   height: 100dvh;
   padding: 0;
   box-sizing: border-box;
@@ -49,6 +49,7 @@
 
 .home-container {
   border: 15px solid #b4d288;
+  border-radius: 32px;
   background-color: #f7efe8;
   height: 100dvh;
   box-sizing: border-box;
