@@ -188,7 +188,7 @@ const finalMessage = computed(() => {
   if (score.value < 0) {
     return "Bravo ! 🎉"
   } else {
-    return "Dommage..."
+    return "Shame..."
   }
 })
 
@@ -279,7 +279,7 @@ onUnmounted(() => {
           </p>
         </div>
         <div class="reminding">
-          <p><strong>N'oublie pas de noter ton score sur ton papier !</strong></p>
+          <p><strong>Don't forget to note your carbon score !</strong></p>
         </div>
       </div>
     </div>
@@ -325,7 +325,7 @@ onUnmounted(() => {
   margin: 0 0 5px 0;
 }
 
-.subtitle {
+.subtitle {/
   font-family: 'Montserrat', sans-serif;
   font-size: 11px;
   color: #666;
