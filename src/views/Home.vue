@@ -92,6 +92,8 @@ header {
   border-radius: 16px;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
   border-left: 4px solid #b4d288;
+  border-right: 4px solid #b4d288;
+
 }
 
 .hero-card p {
