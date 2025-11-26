@@ -299,9 +299,10 @@ onUnmounted(() => {
 
 .minigame-page {
   background-color: #b4d288;
-  min-height: 100vh;
+  height: 100dvh;
   padding: 0;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .minigame-container {
@@ -309,8 +310,10 @@ onUnmounted(() => {
   border-radius: 32px;
   background-color: #f7efe8;
   padding: 20px;
-  min-height: 100vh;
+  height: 100dvh;
   box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .minigame-header {
