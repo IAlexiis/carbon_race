@@ -65,7 +65,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 25px;
+  gap: 50px;
   z-index: 1;
 }
 
@@ -110,7 +110,7 @@ header {
 
 .hero-card {
   background: white;
-  padding: 25px;
+  padding: 15px;
   border-radius: 16px;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
   border-left: 4px solid #b4d288;
