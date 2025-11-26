@@ -171,13 +171,13 @@
 
 .rule-section h2 {
   font-family: 'Moon Get', sans-serif;
-  font-size: 22px;
+  font-size: 16px;
   color: #2d5016;
   margin-bottom: 15px;
 }
 
 .rule-section p {
-  font-size: 14px;
+  font-size: 11px;
   line-height: 1.6;
   margin-bottom: 10px;
 }
@@ -188,7 +188,7 @@
 }
 
 .rule-section li {
-  font-size: 14px;
+  font-size: 11px;
   line-height: 1.8;
   margin-bottom: 8px;
 }
@@ -213,22 +213,23 @@
 }
 
 .space-type {
-  background-color: #f8fdf4;
+  background-color: #e8f3dc;
   padding: 15px;
   margin-bottom: 15px;
   border-radius: 8px;
   border-left: 3px solid #b4d288;
+  border-right: 3px solid #b4d288;
 }
 
 .space-type h3 {
-  font-size: 16px;
+  font-size: 13px;
   color: #2d5016;
   margin-bottom: 8px;
   font-weight: 600;
 }
 
 .space-type p {
-  font-size: 13px;
+  font-size: 11px;
   margin-bottom: 5px;
 }
 
@@ -267,14 +268,14 @@
 }
 
 .zone-card h4 {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 700;
   color: #2d5016;
   margin-bottom: 8px;
 }
 
 .zone-card p {
-  font-size: 11px;
+  font-size: 10px;
   color: #4a6b2f;
   line-height: 1.4;
 }
@@ -284,6 +285,7 @@
   color: #666;
   text-align: center;
   margin-top: 15px;
+  font-size: 10px;
 }
 
 .end-section .profiles {
@@ -294,8 +296,9 @@
   padding: 12px 15px;
   margin-bottom: 10px;
   border-radius: 8px;
-  font-size: 13px;
+  font-size: 11px;
   border-left: 4px solid;
+  border-right: 4px solid;
 }
 
 .profile.eco {
@@ -348,7 +351,7 @@ button {
   border: none;
   width: 100%;
   font-family: 'Moon Get', sans-serif;
-  font-size: 13px;
+  font-size: 11px;
   box-shadow: 3px -5px 0px #9dc56d;
   color: #2d5016;
   cursor: pointer;

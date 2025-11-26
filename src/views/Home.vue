@@ -20,7 +20,7 @@
                 <router-link to="/rules">
                     <button>📖 Rules</button>
                 </router-link>
-                <router-link to="/answers">
+                <router-link to="/Answers">
                     <button>✅ Answers</button>
                 </router-link>
             </div>
@@ -97,7 +97,7 @@ header {
 }
 
 .hero-card p {
-  font-size: 13px;
+  font-size: 11px;
   text-align: center;
   font-family: 'Montserrat', sans-serif;
   line-height: 1.7;
@@ -128,7 +128,7 @@ button {
   border: none;
   width: 100%;
   font-family: 'Moon Get', sans-serif;
-  font-size: 16px;
+  font-size: 13px;
   box-shadow: 3px -5px 0px #9dc56d;
   color: #2d5016;
   cursor: pointer;
