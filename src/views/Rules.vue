@@ -4,7 +4,7 @@
 <div class="rules-page">
     <div class="rules-container">
         <header class="rules-header">
-            <img src="../assets/images/titre.png" alt="Carbon Race" class="title-image">
+            <img src="../assets/images/rule-title.png" alt="Carbon Race" class="title-image">
         </header>
         
         <div class="rules-content">
