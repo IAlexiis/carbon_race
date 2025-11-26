@@ -279,7 +279,8 @@ onUnmounted(() => {
           </p>
         </div>
         <div class="reminding">
-          <p><strong>Don't forget to note your carbon score !</strong></p>
+          <p><strong>
+Don't forget to add this result to your score sheet !</strong></p>
         </div>
       </div>
     </div>
