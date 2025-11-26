@@ -1,108 +1,69 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 
-const currentQuestionIndex = ref(0)
+const currentSituationIndex = ref(0)
 const selectedAnswer = ref(null)
 const hasAnswered = ref(false)
 const score = ref(0)
 const timeLeft = ref(20)
 let timer = null
-const quizCompleted = ref(false)
+const gameCompleted = ref(false)
 
-const questions = ref([
+const situations = ref([
   {
-    question: "What's the average lifespan of a smartphone before replacement?",
-    options: [
-      { id: 'a', text: '6 months', correct: false },
-      { id: 'b', text: '2-3 years', correct: true },
-      { id: 'c', text: '10 years', correct: false }
-    ],
-    explanation: "Most smartphones are replaced every 2-3 years, contributing to massive e-waste."
+    situation: "Watching videos in 4K quality on a small smartphone screen",
+    correctAnswer: false, // TRASH - Bad habit
+    explanation: "Watching 4K on a small screen is wasteful - you can't see the difference but it uses 3x more data and energy than 1080p."
   },
   {
-    question: "How much CO2 does manufacturing a new laptop produce?",
-    options: [
-      { id: 'a', text: '50 kg', correct: false },
-      { id: 'b', text: '200 kg', correct: true },
-      { id: 'c', text: '10 kg', correct: false }
-    ],
-    explanation: "Manufacturing a laptop generates around 200kg of CO2, most of it during production."
+    situation: "Deleting old emails and cleaning up your inbox regularly",
+    correctAnswer: true, // KEEP - Good habit
+    explanation: "Stored emails require server energy to maintain. Deleting unnecessary emails reduces data center storage and energy consumption."
   },
   {
-    question: "What percentage of a device's carbon footprint comes from manufacturing?",
-    options: [
-      { id: 'a', text: '20%', correct: false },
-      { id: 'b', text: '50%', correct: false },
-      { id: 'c', text: '80%', correct: true }
-    ],
-    explanation: "About 80% of a device's environmental impact happens during manufacturing, not usage."
+    situation: "Using dark mode on OLED screens to save battery",
+    correctAnswer: true, // KEEP - Good habit
+    explanation: "On OLED screens, dark pixels consume less energy. Dark mode can reduce battery usage by up to 60% on these displays."
   },
   {
-    question: "Which material in smartphones is the most energy-intensive to extract?",
-    options: [
-      { id: 'a', text: 'Plastic', correct: false },
-      { id: 'b', text: 'Rare earth metals', correct: true },
-      { id: 'c', text: 'Glass', correct: false }
-    ],
-    explanation: "Rare earth metals require massive amounts of energy and water to extract and process."
+    situation: "Leaving multiple browser tabs open with videos and animations running",
+    correctAnswer: false, // TRASH - Bad habit
+    explanation: "Each active tab consumes RAM and processing power continuously. Closing unused tabs significantly reduces your device's energy consumption."
   },
   {
-    question: "How many smartphones are thrown away globally each year?",
-    options: [
-      { id: 'a', text: '150 million', correct: true },
-      { id: 'b', text: '10 million', correct: false },
-      { id: 'c', text: '500 million', correct: false }
-    ],
-    explanation: "Over 150 million smartphones are discarded annually, creating huge e-waste problems."
+    situation: "Blocking auto-play videos and disabling auto-loading of media content",
+    correctAnswer: true, // KEEP - Good habit - CRITICAL POINT ±3
+    explanation: "Auto-play features force content to load and play without your request, consuming massive unnecessary bandwidth, processing power, and server resources globally. Blocking them is one of the most impactful eco-friendly digital behaviors."
   },
   {
-    question: "What does 'planned obsolescence' mean?",
-    options: [
-      { id: 'a', text: 'Devices designed to fail after a certain time', correct: true },
-      { id: 'b', text: 'Devices that last forever', correct: false },
-      { id: 'c', text: 'Devices made from recycled materials', correct: false }
-    ],
-    explanation: "Planned obsolescence means products are designed to become obsolete, forcing replacement."
+    situation: "Uploading full-resolution 10MB photos directly to social media",
+    correctAnswer: false, // TRASH - Bad habit
+    explanation: "Social media compresses images anyway. Compressing photos before uploading saves bandwidth and storage energy on both your device and servers."
   },
   {
-    question: "How much energy is saved by refurbishing a phone vs. making a new one?",
-    options: [
-      { id: 'a', text: '20%', correct: false },
-      { id: 'b', text: '50%', correct: false },
-      { id: 'c', text: '90%', correct: true }
-    ],
-    explanation: "Refurbishing saves up to 90% of the energy needed to manufacture a new device."
+    situation: "Preferring WiFi over mobile data when available",
+    correctAnswer: true, // KEEP - Good habit
+    explanation: "WiFi is 5-10x more energy-efficient than mobile data networks. Mobile towers and cellular infrastructure consume significantly more energy per data unit."
   },
   {
-    question: "What is the 'right to repair' movement about?",
-    options: [
-      { id: 'a', text: 'Making devices easier to fix yourself', correct: true },
-      { id: 'b', text: 'Free repairs from manufacturers', correct: false },
-      { id: 'c', text: 'Banning old devices', correct: false }
-    ],
-    explanation: "The right to repair advocates for accessible repairs to extend device lifespans."
+    situation: "Storing everything in the cloud 'just in case' without deleting old files",
+    correctAnswer: false, // TRASH - Bad habit
+    explanation: "Cloud storage isn't magic - it relies on massive data centers consuming enormous electricity for servers, cooling, and operations. Clean up unused files regularly."
   },
   {
-    question: "How many liters of water are used to produce one smartphone?",
-    options: [
-      { id: 'a', text: '100 liters', correct: false },
-      { id: 'b', text: '13,000 liters', correct: true },
-      { id: 'c', text: '500 liters', correct: false }
-    ],
-    explanation: "Producing a single smartphone requires about 13,000 liters of water!"
+    situation: "Binge-watching series in standard definition instead of HD when quality difference is minimal",
+    correctAnswer: true, // KEEP - Good habit
+    explanation: "Streaming in SD uses 50-70% less bandwidth and energy than HD. On mobile screens or background viewing, the quality difference is negligible but the environmental impact is huge."
   },
   {
-    question: "What does e-waste contain that's harmful?",
-    options: [
-      { id: 'a', text: 'Heavy metals like lead and mercury', correct: true },
-      { id: 'b', text: 'Only plastic', correct: false },
-      { id: 'c', text: 'Nothing harmful', correct: false }
-    ],
-    explanation: "E-waste contains toxic heavy metals that pollute soil and water if not properly recycled."
+    situation: "Using ad blockers to reduce unnecessary content loading",
+    correctAnswer: true, // KEEP - Good habit - CRITICAL POINT ±3
+    explanation: "Ads and trackers load massive amounts of additional scripts, images, videos and tracking code. Blocking them can reduce page load data by 50-60%, significantly cutting your digital carbon footprint."
   }
 ])
 
-const currentQuestion = computed(() => questions.value[currentQuestionIndex.value])
+const currentSituation = computed(() => situations.value[currentSituationIndex.value])
+const isCriticalPoint = computed(() => currentSituationIndex.value === 4 || currentSituationIndex.value === 9)
 
 const startTimer = () => {
   timeLeft.value = 20
@@ -124,9 +85,9 @@ const stopTimer = () => {
   }
 }
 
-const selectAnswer = (optionId) => {
+const selectAnswer = (answer) => {
   if (hasAnswered.value) return
-  selectedAnswer.value = optionId
+  selectedAnswer.value = answer
 }
 
 const submitAnswer = () => {
@@ -135,49 +96,52 @@ const submitAnswer = () => {
   hasAnswered.value = true
   stopTimer()
   
-  const selectedOption = currentQuestion.value.options.find(opt => opt.id === selectedAnswer.value)
-  if (selectedOption.correct) {
-    score.value -= 1 // Bonne réponse: -1 carbon
+  const isCorrect = selectedAnswer.value === currentSituation.value.correctAnswer
+  const points = isCriticalPoint.value ? 3 : 1
+  
+  if (isCorrect) {
+    score.value -= points // Bonne réponse: -1 ou -3 carbon
   } else {
-    score.value += 1 // Mauvaise réponse: +1 carbon
+    score.value += points // Mauvaise réponse: +1 ou +3 carbon
   }
   
   setTimeout(() => {
-    nextQuestion()
+    nextSituation()
   }, 3000)
 }
 
 const autoSubmitWrong = () => {
   hasAnswered.value = true
-  score.value += 1 // Temps écoulé = mauvaise réponse
+  const points = isCriticalPoint.value ? 3 : 1
+  score.value += points // Temps écoulé = mauvaise réponse
   
   setTimeout(() => {
-    nextQuestion()
+    nextSituation()
   }, 3000)
 }
 
-const nextQuestion = () => {
-  if (currentQuestionIndex.value < questions.value.length - 1) {
-    currentQuestionIndex.value++
+const nextSituation = () => {
+  if (currentSituationIndex.value < situations.value.length - 1) {
+    currentSituationIndex.value++
     selectedAnswer.value = null
     hasAnswered.value = false
     startTimer()
   } else {
-    quizCompleted.value = true
+    gameCompleted.value = true
     stopTimer()
   }
 }
 
-const getOptionClass = (option) => {
+const getButtonClass = (answer) => {
   if (!hasAnswered.value) {
-    return selectedAnswer.value === option.id ? 'selected' : ''
+    return selectedAnswer.value === answer ? 'selected' : ''
   }
   
-  if (option.correct) {
+  if (answer === currentSituation.value.correctAnswer) {
     return 'correct'
   }
   
-  if (selectedAnswer.value === option.id && !option.correct) {
+  if (selectedAnswer.value === answer && answer !== currentSituation.value.correctAnswer) {
     return 'incorrect'
   }
   
@@ -205,16 +169,16 @@ onUnmounted(() => {
 <div class="minigame-page">
   <div class="minigame-container">
     <header class="minigame-header">
-      <h1>Zone 1 Quiz</h1>
-      <p class="subtitle">Devices & Manufacturing</p>
+      <h1>Zone 2 - Trash or Keep</h1>
+      <p class="subtitle">UX & Digital Behaviors</p>
     </header>
     
-    <div v-if="!quizCompleted" class="quiz-content">
+    <div v-if="!gameCompleted" class="game-content">
       <!-- Progress Bar -->
       <div class="progress-section">
-        <p class="progress-text">Question {{ currentQuestionIndex + 1 }} / {{ questions.length }}</p>
+        <p class="progress-text">Situation {{ currentSituationIndex + 1 }} / {{ situations.length }}</p>
         <div class="progress-bar">
-          <div class="progress-fill" :style="{ width: ((currentQuestionIndex + 1) / questions.length * 100) + '%' }"></div>
+          <div class="progress-fill" :style="{ width: ((currentSituationIndex + 1) / situations.length * 100) + '%' }"></div>
         </div>
       </div>
 
@@ -229,31 +193,39 @@ onUnmounted(() => {
       <!-- Score -->
       <div class="score-section">
         <p class="score">Carbon Score: <span :class="{ 'positive': score > 0, 'negative': score < 0, 'neutral': score === 0 }">{{ score > 0 ? '+' : '' }}{{ score }}</span></p>
+        <p v-if="isCriticalPoint" class="critical-badge">⚡ Critical Point: ±3</p>
       </div>
 
-      <!-- Question -->
-      <div class="question-section">
-        <h2 class="question-text">{{ currentQuestion.question }}</h2>
+      <!-- Situation -->
+      <div class="situation-section">
+        <h2 class="situation-text">{{ currentSituation.situation }}</h2>
       </div>
 
-      <!-- Options -->
-      <div class="options-section">
+      <!-- Trash or Keep Buttons -->
+      <div class="answer-section">
         <button 
-          v-for="option in currentQuestion.options" 
-          :key="option.id"
-          class="option-button"
-          :class="getOptionClass(option)"
-          @click="selectAnswer(option.id)"
+          class="answer-button trash-button"
+          :class="getButtonClass(false)"
+          @click="selectAnswer(false)"
           :disabled="hasAnswered"
         >
-          <span class="option-letter">{{ option.id.toUpperCase() }})</span>
-          <span class="option-text">{{ option.text }}</span>
+          <span class="button-icon">🗑️</span>
+          <span class="button-text">TRASH</span>
+        </button>
+        <button 
+          class="answer-button keep-button"
+          :class="getButtonClass(true)"
+          @click="selectAnswer(true)"
+          :disabled="hasAnswered"
+        >
+          <span class="button-icon">✅</span>
+          <span class="button-text">KEEP</span>
         </button>
       </div>
 
       <!-- Explanation (shown after answer) -->
       <div v-if="hasAnswered" class="explanation-section">
-        <p class="explanation">{{ currentQuestion.explanation }}</p>
+        <p class="explanation">{{ currentSituation.explanation }}</p>
       </div>
 
       <!-- Submit Button -->
@@ -268,7 +240,7 @@ onUnmounted(() => {
       </div>
     </div>
 
-    <!-- Quiz Completed -->
+    <!-- Game Completed -->
     <div v-else class="completion-section">
       <div class="completion-card">
         <h2 class="completion-title">{{ finalMessage }}</h2>
@@ -335,7 +307,7 @@ onUnmounted(() => {
   margin: 0;
 }
 
-.quiz-content {
+.game-content {
   font-family: 'Montserrat', sans-serif;
 }
 
@@ -411,6 +383,7 @@ onUnmounted(() => {
   font-size: 11px;
   color: #666;
   font-weight: 600;
+  margin-bottom: 5px;
 }
 
 .score .positive {
@@ -425,16 +398,29 @@ onUnmounted(() => {
   color: #666;
 }
 
-.question-section {
+.critical-badge {
+  font-size: 10px;
+  color: #ff9800;
+  font-weight: 700;
+  margin: 0;
+  animation: glow 1s ease-in-out infinite;
+}
+
+@keyframes glow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.situation-section {
   background-color: white;
   padding: 20px;
   border-radius: 12px;
-  margin-bottom: 20px;
-  border-left: 4px solid #a7d4eb;
-  border-right: 4px solid #a7d4eb;
+  margin-bottom: 25px;
+  border-left: 4px solid #cfe8a6;
+  border-right: 4px solid #cfe8a6;
 }
 
-.question-text {
+.situation-text {
   font-size: 13px;
   color: #333;
   line-height: 1.6;
@@ -443,62 +429,59 @@ onUnmounted(() => {
   text-align: center;
 }
 
-.options-section {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+.answer-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
   margin-bottom: 20px;
 }
 
-.option-button {
+.answer-button {
   background-color: white;
-  border: 2px solid #e0e0e0;
-  border-radius: 12px;
-  padding: 15px;
+  border: 3px solid #e0e0e0;
+  border-radius: 16px;
+  padding: 20px 10px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
   font-family: 'Montserrat', sans-serif;
-  text-align: left;
 }
 
-.option-button:hover:not(:disabled) {
-  border-color: #b4d288;
-  background-color: #f8fdf4;
+.answer-button:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-.option-button.selected {
+.answer-button.selected {
   border-color: #b4d288;
   background-color: #e8f3dc;
 }
 
-.option-button.correct {
+.answer-button.correct {
   border-color: #4caf50;
   background-color: #e8f5e9;
 }
 
-.option-button.incorrect {
+.answer-button.incorrect {
   border-color: #f44336;
   background-color: #ffebee;
 }
 
-.option-button:disabled {
+.answer-button:disabled {
   cursor: not-allowed;
 }
 
-.option-letter {
-  font-weight: 700;
-  color: #2d5016;
-  font-size: 12px;
-  min-width: 20px;
+.button-icon {
+  font-size: 32px;
 }
 
-.option-text {
-  font-size: 11px;
-  color: #333;
-  line-height: 1.4;
+.button-text {
+  font-family: 'Moon Get', sans-serif;
+  font-size: 14px;
+  color: #2d5016;
 }
 
 .explanation-section {
@@ -570,8 +553,8 @@ onUnmounted(() => {
   padding: 30px 20px;
   border-radius: 16px;
   text-align: center;
-  border-left: 4px solid #a7d4eb;
-  border-right: 4px solid #a7d4eb;
+  border-left: 4px solid #cfe8a6;
+  border-right: 4px solid #cfe8a6;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 }
 
