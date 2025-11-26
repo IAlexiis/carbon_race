@@ -2,22 +2,29 @@
 
 <template>
 <div class="home-page">
-    <img src="../assets/images/Leaf-Icon-PNG-Photos.png" alt="Leaf" class="floating-leaf">
-    <img src="../assets/images/portable-network-graphics-vector-graphics-clip-art-image-cloud-png-favpng-HHPjKeJvv8gnjVCBFyR7Zxm77-removebg-preview.png" alt="cloud" class="floating-cloud">
-    <header>
-        <h1>Carbon Race</h1>
-    </header>
-    <section class="hero">
-        <p>A quick and accessible companion for your Carbon Race game.
-        Find the rules, answer keys, and play mini-games directly from your mobile.</p>
-    </section>
-    <div class="button-section">
-        <router-link to="/rules">
-            <button>Rules</button>
-        </router-link>
-        <router-link to="/answers">
-            <button>Answers</button>
-        </router-link>
+    <div class="home-container">
+        
+        <div class="content-wrapper">
+            <header>
+                <img src="../assets/images/titre.png" alt="Carbon Race" class="title-image">
+            </header>
+            
+            <section class="hero">
+                <div class="hero-card">
+                    <p>A quick and accessible companion for your Carbon Race game.
+                    Find the rules, answer keys, and play mini-games directly from your mobile.</p>
+                </div>
+            </section>
+            
+            <div class="button-section">
+                <router-link to="/rules">
+                    <button>📖 Rules</button>
+                </router-link>
+                <router-link to="/answers">
+                    <button>✅ Answers</button>
+                </router-link>
+            </div>
+        </div>
     </div>
 </div>
 </template>
@@ -32,65 +39,88 @@
   font-style: normal;
 }
 
-body {
-  margin: 0;
+.home-page {
+  background-color: #f7efe8;
+  min-height: 100vh;
   padding: 0;
   box-sizing: border-box;
 }
 
-.home-page {
-  font-family: 'Moon Get', sans-serif;
+.home-container {
+  border: 15px solid #b4d288;
   background-color: #f7efe8;
-  padding: 0 20px;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  height: 100dvh;
-  position: relative;
-  margin: 0;
+  min-height: 100vh;
   box-sizing: border-box;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.content-wrapper {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  z-index: 1;
 }
 
 .floating-leaf {
   position: absolute;
   top: 40px;
   left: 40px;
-  width: 70px;
+  width: 80px;
   height: auto;
-  opacity: 0.8;
+  opacity: 0.7;
   transform: rotate(45deg);
+  z-index: 0;
 }
 
 .floating-cloud {
   position: absolute;
-  bottom: 30px;
-  right: 25px;
-  width: 150px;
+  bottom: 40px;
+  right: 40px;
+  width: 160px;
   height: auto;
-  opacity: 0.8;
+  opacity: 0.7;
   transform: rotate(20deg);
+  z-index: 0;
 }
 
 header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 50px;
+  text-align: center;
+  width: 100%;
 }
 
-h1 {
-  font-size: 28px;
-  text-align: center;
+.title-image {
+  max-width: 320px;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.1));
 }
 
 .hero {
-  margin-bottom: 50px;
+  width: 100%;
 }
 
-.hero p {
-  font-size: 14px;
+.hero-card {
+  background: white;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
+  border-left: 4px solid #b4d288;
+}
+
+.hero-card p {
+  font-size: 15px;
   text-align: center;
   font-family: 'Montserrat', sans-serif;
+  line-height: 1.7;
+  margin: 0;
+  color: #333;
 }
 
 .button-section {
@@ -99,24 +129,36 @@ h1 {
   justify-content: center;
   align-items: center;
   gap: 20px;
+  width: 100%;
 }
 
 .button-section a {
-  width: 70%;
+  width: 100%;
+  max-width: 280px;
   text-decoration: none;
 }
 
 button {
-  background-color: #cfe8a6;
+  background: linear-gradient(135deg, #cfe8a6 0%, #b4d288 100%);
   border-radius: 16px;
-  padding: 10px 20px;
+  padding: 16px 24px;
   border: none;
   width: 100%;
-  font-family: 'Arial', sans-serif;
-  font-weight: bold;
+  font-family: 'Moon Get', sans-serif;
   font-size: 18px;
   box-shadow: 3px -5px 0px #9dc56d;
-  color: black;
+  color: #2d5016;
   cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0px 6px 0px #9dc56d, 0px 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+button:active {
+  transform: translateY(2px);
+  box-shadow: 0px 2px 0px #9dc56d, 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 </style>
