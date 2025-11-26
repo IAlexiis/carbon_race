@@ -70,28 +70,6 @@
   z-index: 1;
 }
 
-.floating-leaf {
-  position: absolute;
-  top: 40px;
-  left: 40px;
-  width: 80px;
-  height: auto;
-  opacity: 0.7;
-  transform: rotate(45deg);
-  z-index: 0;
-}
-
-.floating-cloud {
-  position: absolute;
-  bottom: 40px;
-  right: 40px;
-  width: 160px;
-  height: auto;
-  opacity: 0.7;
-  transform: rotate(20deg);
-  z-index: 0;
-}
-
 header {
   text-align: center;
   width: 100%;
@@ -102,7 +80,6 @@ header {
   max-width: 320px;
   width: 100%;
   height: auto;
-  filter: drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.1));
 }
 
 .hero {
