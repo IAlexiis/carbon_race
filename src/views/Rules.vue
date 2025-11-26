@@ -130,7 +130,7 @@
 }
 
 .rules-page {
-  background-color: #f7efe8;
+  background-color: #b4d288;
   min-height: 100vh;
   padding: 0;
   box-sizing: border-box;
@@ -138,6 +138,7 @@
 
 .rules-container {
   border: 15px solid #b4d288;
+  border-radius: 32px;
   background-color: #f7efe8;
   padding: 30px 20px;
   min-height: 100vh;
