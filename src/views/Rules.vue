@@ -77,19 +77,19 @@
                 <h2>🌍 The Four Zones</h2>
                 <p>The board is divided into 4 Zones representing key stages of digital impact :</p>
                 <div class="zones-grid">
-                    <div class="zone-card">
+                    <div class="zone-card zone-devices">
                         <h4>Devices & Manufacturing</h4>
                         <p>production, materials, transport</p>
                     </div>
-                    <div class="zone-card">
+                    <div class="zone-card zone-user">
                         <h4>User Behavior</h4>
                         <p>streaming, social networks, usage habits</p>
                     </div>
-                    <div class="zone-card">
+                    <div class="zone-card zone-code">
                         <h4>Code & Development</h4>
                         <p>page weight, optimization, scripts</p>
                     </div>
-                    <div class="zone-card">
+                    <div class="zone-card zone-servers">
                         <h4>Servers & Data</h4>
                         <p>storage, cloud, data centers</p>
                     </div>
@@ -245,10 +245,25 @@
 }
 
 .zone-card {
-  background: linear-gradient(135deg, #cfe8a6 0%, #b4d288 100%);
   padding: 15px;
   border-radius: 10px;
   text-align: center;
+}
+
+.zone-card.zone-devices {
+  background-color: #a7d4eb;
+}
+
+.zone-card.zone-user {
+  background-color: #cfe8a6;
+}
+
+.zone-card.zone-code {
+  background-color: #e0c5fc;
+}
+
+.zone-card.zone-servers {
+  background-color: #f7a88a;
 }
 
 .zone-card h4 {
