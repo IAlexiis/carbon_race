@@ -328,11 +328,11 @@
 button {
   background-color: #cfe8a6;
   border-radius: 16px;
-  padding: 12px 20px;
+  padding: 12px 18px;
   border: none;
   width: 100%;
   font-family: 'Moon Get', sans-serif;
-  font-size: 14px;
+  font-size: 13px;
   box-shadow: 3px -5px 0px #9dc56d;
   color: #2d5016;
   cursor: pointer;

@@ -41,21 +41,22 @@
 
 .home-page {
   background-color: #f7efe8;
-  min-height: 100vh;
+  height: 100dvh;
   padding: 0;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .home-container {
   border: 15px solid #b4d288;
   background-color: #f7efe8;
-  min-height: 100vh;
+  height: 100dvh;
   box-sizing: border-box;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px 20px;
+  padding: 20px 20px;
 }
 
 .content-wrapper {
@@ -64,7 +65,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 40px;
+  gap: 25px;
   z-index: 1;
 }
 
@@ -93,6 +94,7 @@
 header {
   text-align: center;
   width: 100%;
+  margin-top: -30px;
 }
 
 .title-image {
@@ -115,7 +117,7 @@ header {
 }
 
 .hero-card p {
-  font-size: 15px;
+  font-size: 13px;
   text-align: center;
   font-family: 'Montserrat', sans-serif;
   line-height: 1.7;
@@ -141,11 +143,11 @@ header {
 button {
   background: linear-gradient(135deg, #cfe8a6 0%, #b4d288 100%);
   border-radius: 16px;
-  padding: 16px 24px;
+  padding: 14px 20px;
   border: none;
   width: 100%;
   font-family: 'Moon Get', sans-serif;
-  font-size: 18px;
+  font-size: 16px;
   box-shadow: 3px -5px 0px #9dc56d;
   color: #2d5016;
   cursor: pointer;
