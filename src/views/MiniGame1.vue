@@ -279,8 +279,7 @@ onUnmounted(() => {
           </p>
         </div>
         <div class="reminding">
-          <p><strong>
-Don't forget to add this result to your score sheet !</strong></p>
+          <p><strong>Don't forget to add this result to your score sheet !</strong></p>
         </div>
       </div>
     </div>
@@ -326,7 +325,7 @@ Don't forget to add this result to your score sheet !</strong></p>
   margin: 0 0 5px 0;
 }
 
-.subtitle {/
+.subtitle {
   font-family: 'Montserrat', sans-serif;
   font-size: 11px;
   color: #666;
