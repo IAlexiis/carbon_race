@@ -10,7 +10,7 @@
     </section>
     
     <div class="rules-card">
-        <img src="../assets/images/rules-image.png" alt="Carbon Race Rules">
+        <img src="" alt="Carbon Race Rules">
     </div>
     
     <div class="button-section">
