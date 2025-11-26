@@ -4,7 +4,6 @@ import { ref, computed } from 'vue'
 const searchQuery = ref('')
 
 const allCards = ref([
-  // Zone 1
   { zone: 1, zoneName: 'Devices & Manufacturing', cardNumber: 1, question: 'You need a smartphone. Which is the most eco-friendly?', answer: 'b) Refurbished', carbon: '–2', explanation: 'Refurbished devices reuse components, reducing energy and resource use.' },
   { zone: 1, zoneName: 'Devices & Manufacturing', cardNumber: 2, question: 'Computer is slow but works. What do you do?', answer: 'b) Update software', carbon: '–2', explanation: 'Updating prolongs life, avoids unnecessary production.' },
   { zone: 1, zoneName: 'Devices & Manufacturing', cardNumber: 3, question: 'Buying a device: which reduces carbon most?', answer: 'b) Check repairability/modularity', carbon: '–2', explanation: 'Repairable devices last longer and generate less e-waste.' },
@@ -16,7 +15,6 @@ const allCards = ref([
   { zone: 1, zoneName: 'Devices & Manufacturing', cardNumber: 9, question: 'Choosing a laptop:', answer: 'a) Lightweight and durable', carbon: '–1', explanation: 'Lightweight, durable laptops require less material and energy.' },
   { zone: 1, zoneName: 'Devices & Manufacturing', cardNumber: 10, question: 'Reduce energy impact:', answer: 'a) Choose low-energy device', carbon: '–2', explanation: 'Energy-efficient devices lower both operational and lifecycle carbon footprint.' },
   
-  // Zone 2
   { zone: 2, zoneName: 'UX & Digital Behavior', cardNumber: 1, question: 'You need to watch a movie. Which is the most eco-friendly?', answer: 'b) Streaming SD', carbon: '–1', explanation: 'SD reduces data transfer and energy use.' },
   { zone: 2, zoneName: 'UX & Digital Behavior', cardNumber: 2, question: 'How to reduce social media impact?', answer: 'a) Delete some apps', carbon: '–1', explanation: 'Reducing app usage decreases digital traffic.' },
   { zone: 2, zoneName: 'UX & Digital Behavior', cardNumber: 3, question: 'Listening to music: lowest energy consumption?', answer: 'b) Low-quality streaming', carbon: '–1', explanation: 'Smaller files require less energy to stream.' },
@@ -28,7 +26,6 @@ const allCards = ref([
   { zone: 2, zoneName: 'UX & Digital Behavior', cardNumber: 9, question: 'Device setting to reduce impact?', answer: 'a) Dark mode', carbon: '–1', explanation: '' },
   { zone: 2, zoneName: 'UX & Digital Behavior', cardNumber: 10, question: 'Reducing online footprint: best option?', answer: 'a) Limit usage + SD streaming', carbon: '–2', explanation: '' },
   
-  // Zone 3
   { zone: 3, zoneName: 'Code & Development', cardNumber: 1, question: 'You want to reduce website energy use. Best choice?', answer: 'a) Optimize images', carbon: '–2', explanation: 'Optimized images reduce server load and energy consumption.' },
   { zone: 3, zoneName: 'Code & Development', cardNumber: 2, question: 'How to reduce server load from unused code?', answer: 'a) Remove unused scripts', carbon: '–1', explanation: 'Removing unused scripts decreases unnecessary processing.' },
   { zone: 3, zoneName: 'Code & Development', cardNumber: 3, question: 'Page speed: what reduces carbon footprint?', answer: 'a) Minimize load time', carbon: '–2', explanation: 'Faster sites use less energy for users and servers.' },
@@ -40,7 +37,6 @@ const allCards = ref([
   { zone: 3, zoneName: 'Code & Development', cardNumber: 9, question: 'Images on a website:', answer: 'a) Compressed formats', carbon: '–2', explanation: '' },
   { zone: 3, zoneName: 'Code & Development', cardNumber: 10, question: 'Page load time optimization: best method?', answer: 'a) Reduce heavy scripts', carbon: '–2', explanation: '' },
   
-  // Zone 4
   { zone: 4, zoneName: 'Servers & Data', cardNumber: 1, question: 'How can you reduce cloud storage energy use?', answer: 'a) Delete unnecessary files', carbon: '–2', explanation: 'Deleting files reduces storage space and server energy consumption.' },
   { zone: 4, zoneName: 'Servers & Data', cardNumber: 2, question: 'What is the best hosting choice for sustainability?', answer: 'a) Green hosting provider', carbon: '–3', explanation: 'Renewable-powered servers lower overall emissions.' },
   { zone: 4, zoneName: 'Servers & Data', cardNumber: 3, question: 'Uploading large files efficiently:', answer: 'a) Compress files', carbon: '–1', explanation: 'Compression reduces bandwidth and server energy usage.' },
@@ -103,7 +99,6 @@ const groupedCards = computed(() => {
                 <p>All answers to the Choice Cards organized by zone. Use this as a reference during your game!</p>
             </section>
 
-            <!-- Search Bar -->
             <div class="search-section">
                 <input 
                     type="text" 
@@ -113,12 +108,10 @@ const groupedCards = computed(() => {
                 />
             </div>
 
-            <!-- Display message if no results -->
             <div v-if="Object.keys(groupedCards).length === 0" class="no-results">
                 <p>No results found for "{{ searchQuery }}"</p>
             </div>
 
-            <!-- Grouped Cards by Zone -->
             <template v-for="(zoneData, zoneNumber) in groupedCards" :key="zoneNumber">
                 <section class="zone-section" :class="getZoneClass(parseInt(zoneNumber))">
                     <h2>Zone {{ zoneNumber }}: {{ zoneData.zoneName }}</h2>

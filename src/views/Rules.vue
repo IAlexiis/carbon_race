@@ -9,12 +9,12 @@
         
         <div class="rules-content">
             <section class="rule-section">
-                <h2>🎯 Goal of the Game</h2>
+                <h2>Goal of the Game</h2>
                 <p>Travel through the four zones of the digital lifecycle and reach the end of the board with the lowest carbon score. Every choice, question and mini-game affects your carbon impact.</p>
             </section>
 
             <section class="rule-section">
-                <h2>🎲 Setup</h2>
+                <h2>Setup</h2>
                 <ul>
                     <li>Place the board on the table and put all pawns on the Start space.</li>
                     <li>Shuffle the Event Cards and Question Cards separately.</li>
@@ -24,7 +24,7 @@
             </section>
 
             <section class="rule-section">
-                <h2>▶️ How to Play</h2>
+                <h2>How to Play</h2>
                 <ul>
                     <li>Players / teams take turns clockwise.</li>
                     <li>Roll the die and move your pawn forward.</li>
@@ -32,7 +32,7 @@
                     <li>When you cross a Mini-Game space, stop immediately on it even with your die score is bigger.</li>
                 </ul>
                 <div class="important-note">
-                    <strong>⚠️ Important :</strong>
+                    <strong>Important :</strong>
                     <ul>
                         <li>If your movement comes from a board Event, you apply the effect of the new space.</li>
                         <li>If your movement comes from a permutation effect, you do NOT apply the effect of the space you arrive on.</li>
@@ -41,7 +41,7 @@
             </section>
 
             <section class="rule-section">
-                <h2>🎴 Types of Spaces</h2>
+                <h2>Types of Spaces</h2>
                 
                 <div class="space-type">
                     <h3>Event Space</h3>
@@ -74,7 +74,7 @@
             </section>
 
             <section class="rule-section">
-                <h2>🌍 The Four Zones</h2>
+                <h2>The Four Zones</h2>
                 <p>The board is divided into 4 Zones representing key stages of digital impact :</p>
                 <div class="zones-grid">
                     <div class="zone-card zone-devices">
@@ -98,7 +98,7 @@
             </section>
 
             <section class="rule-section end-section">
-                <h2>🏁 End of the Game</h2>
+                <h2>End of the Game</h2>
                 <p>The game ends once all players reach the final space. Compare carbon scores and read your profile :</p>
                 <div class="profiles">
                     <div class="profile eco">–10 or less : <strong>Eco-User</strong> – Master of Sustainable Digital Use</div>

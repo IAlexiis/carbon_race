@@ -18,10 +18,10 @@
             
             <div class="button-section">
                 <router-link to="/rules">
-                    <button>📖 Rules</button>
+                    <button>Rules</button>
                 </router-link>
                 <router-link to="/Answers">
-                    <button>✅ Answers</button>
+                    <button>Answers</button>
                 </router-link>
             </div>
         </div>
