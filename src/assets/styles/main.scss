@@ -80,16 +80,21 @@ body {
     align-items: center;
     gap: 20px;
 
+    a {
+      width: 70%;
+      text-decoration: none;
+    }
+
     button {
       background-color: #cfe8a6;
       border-radius: 16px;
       padding: 10px 20px;
       border: none;
-      width: 70%;
+      width: 100%;
       transform: all ease 0.4s;
       box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.2);
       color: black;
-      text-decoration: none;
+      cursor: pointer;
     }
   }
 }
