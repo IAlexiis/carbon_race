@@ -132,6 +132,7 @@ header {
   align-items: center;
   gap: 20px;
   width: 100%;
+  margin-top: 20px;
 }
 
 .button-section a {
