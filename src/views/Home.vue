@@ -18,10 +18,16 @@
             
             <div class="button-section">
                 <router-link to="/rules">
-                    <button>Rules</button>
+                    <button class="rules-button">
+                        <img src="../assets/images/rules-picto.png" alt="" class="rules-picto">
+                        Rules
+                    </button>
                 </router-link>
                 <router-link to="/Answers">
-                    <button>Answers</button>
+                    <button class="answers-button">
+                        Answers
+                        <img src="../assets/images/check.png" alt="" class="check-picto">
+                    </button>
                 </router-link>
             </div>
         </div>
@@ -133,6 +139,7 @@ button {
   color: #2d5016;
   cursor: pointer;
   transition: transform 0.15s ease, filter 0.15s ease;
+  position: relative;
 }
 
 button:hover {
@@ -143,5 +150,23 @@ button:hover {
 button:active {
   transform: scale(0.98);
   filter: brightness(0.95);
+}
+
+.rules-picto {
+  position: absolute;
+  top: -20px;
+  left: -15px;
+  width: 50px;
+  height: 50px;
+  transform: rotate(15deg);
+}
+
+.check-picto {
+  position: absolute;
+  bottom: -20px;
+  right: -15px;
+  width: 50px;
+  height: 50px;
+  transform: rotate(-15deg);
 }
 </style>

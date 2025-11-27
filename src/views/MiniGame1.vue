@@ -47,13 +47,13 @@ const questions = ref([
     explanation: "Rare earth metals require massive amounts of energy and water to extract and process."
   },
   {
-    question: "How many smartphones are thrown away globally each year?",
+    question: "Extending device lifespan from 2 to 4 years reduces its environmental impact by approximately:",
     options: [
-      { id: 'a', text: '150 million', correct: true },
-      { id: 'b', text: '10 million', correct: false },
-      { id: 'c', text: '500 million', correct: false }
+      { id: 'a', text: '10%', correct: false },
+      { id: 'b', text: '50%', correct: true },
+      { id: 'c', text: '5%', correct: false }
     ],
-    explanation: "Over 150 million smartphones are discarded annually, creating huge e-waste problems."
+    explanation: "Doubling device lifespan nearly halves its environmental impact per year of use. This is one of the most critical factors in reducing tech's carbon footprint - keeping devices longer is more impactful than any recycling program."
   },
   {
     question: "What does 'planned obsolescence' mean?",
@@ -92,17 +92,18 @@ const questions = ref([
     explanation: "Producing a single smartphone requires about 13,000 liters of water!"
   },
   {
-    question: "What does e-waste contain that's harmful?",
+    question: "What percentage of electronic waste is actually recycled globally?",
     options: [
-      { id: 'a', text: 'Heavy metals like lead and mercury', correct: true },
-      { id: 'b', text: 'Only plastic', correct: false },
-      { id: 'c', text: 'Nothing harmful', correct: false }
+      { id: 'a', text: '70%', correct: false },
+      { id: 'b', text: '17%', correct: true },
+      { id: 'c', text: '45%', correct: false }
     ],
-    explanation: "E-waste contains toxic heavy metals that pollute soil and water if not properly recycled."
+    explanation: "Only 17% of e-waste is properly recycled globally. The rest ends up in landfills or is illegally exported, leaking toxic materials into the environment. Improving this rate is critical - recycling one million laptops saves the energy equivalent to powering 3,500 homes for a year."
   }
 ])
 
 const currentQuestion = computed(() => questions.value[currentQuestionIndex.value])
+const isCriticalPoint = computed(() => currentQuestionIndex.value === 4 || currentQuestionIndex.value === 9)
 
 const startTimer = () => {
   timeLeft.value = 20
@@ -136,24 +137,27 @@ const submitAnswer = () => {
   stopTimer()
   
   const selectedOption = currentQuestion.value.options.find(opt => opt.id === selectedAnswer.value)
+  const points = isCriticalPoint.value ? 3 : 1
+  
   if (selectedOption.correct) {
-    score.value -= 1 // Bonne réponse: -1 carbon
+    score.value -= points
   } else {
-    score.value += 1 // Mauvaise réponse: +1 carbon
+    score.value += points
   }
   
   setTimeout(() => {
     nextQuestion()
-  }, 3000)
+  }, 5000)
 }
 
 const autoSubmitWrong = () => {
   hasAnswered.value = true
-  score.value += 1 // Temps écoulé = mauvaise réponse
+  const points = isCriticalPoint.value ? 3 : 1
+  score.value += points
   
   setTimeout(() => {
     nextQuestion()
-  }, 3000)
+  }, 5000)
 }
 
 const nextQuestion = () => {
@@ -210,7 +214,6 @@ onUnmounted(() => {
     </header>
     
     <div v-if="!quizCompleted" class="quiz-content">
-      <!-- Progress Bar -->
       <div class="progress-section">
         <p class="progress-text">Question {{ currentQuestionIndex + 1 }} / {{ questions.length }}</p>
         <div class="progress-bar">
@@ -218,7 +221,6 @@ onUnmounted(() => {
         </div>
       </div>
 
-      <!-- Timer -->
       <div class="timer-section">
         <div class="timer" :class="{ 'timer-warning': timeLeft <= 5 }">
           <span class="timer-icon">⏱️</span>
@@ -226,17 +228,15 @@ onUnmounted(() => {
         </div>
       </div>
 
-      <!-- Score -->
       <div class="score-section">
         <p class="score">Carbon Score: <span :class="{ 'positive': score > 0, 'negative': score < 0, 'neutral': score === 0 }">{{ score > 0 ? '+' : '' }}{{ score }}</span></p>
+        <p v-if="isCriticalPoint" class="critical-badge">⚡ Critical Point: +3 / -3</p>
       </div>
 
-      <!-- Question -->
       <div class="question-section">
         <h2 class="question-text">{{ currentQuestion.question }}</h2>
       </div>
 
-      <!-- Options -->
       <div class="options-section">
         <button 
           v-for="option in currentQuestion.options" 
@@ -251,12 +251,10 @@ onUnmounted(() => {
         </button>
       </div>
 
-      <!-- Explanation (shown after answer) -->
       <div v-if="hasAnswered" class="explanation-section">
         <p class="explanation">{{ currentQuestion.explanation }}</p>
       </div>
 
-      <!-- Submit Button -->
       <div class="submit-section" v-if="!hasAnswered">
         <button 
           class="submit-button" 
@@ -268,7 +266,6 @@ onUnmounted(() => {
       </div>
     </div>
 
-    <!-- Quiz Completed -->
     <div v-else class="completion-section">
       <div class="completion-card">
         <h2 class="completion-title">{{ finalMessage }}</h2>
@@ -425,6 +422,19 @@ onUnmounted(() => {
   color: #666;
 }
 
+.critical-badge {
+  font-size: 10px;
+  color: #ff9800;
+  font-weight: 700;
+  margin: 0;
+  animation: glow 1s ease-in-out infinite;
+}
+
+@keyframes glow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
 .question-section {
   background-color: white;
   padding: 20px;
@@ -575,11 +585,24 @@ onUnmounted(() => {
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+.completion-title-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
 .completion-title {
   font-family: 'Moon Get', sans-serif;
   font-size: 20px;
   color: #2d5016;
-  margin: 0 0 20px 0;
+  margin: 0;
+}
+
+.completion-icon {
+  width: 32px;
+  height: 32px;
 }
 
 .final-score {

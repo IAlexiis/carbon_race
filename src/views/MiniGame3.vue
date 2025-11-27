@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 
-const currentSituationIndex = ref(0)
+const currentQuestionIndex = ref(0)
 const selectedAnswer = ref(null)
 const hasAnswered = ref(false)
 const score = ref(0)
@@ -9,61 +9,127 @@ const timeLeft = ref(20)
 let timer = null
 const gameCompleted = ref(false)
 
-const situations = ref([
+const questions = ref([
   {
-    situation: "Watching videos in 4K quality on a small smartphone screen",
-    correctAnswer: false, // TRASH - Bad habit
-    explanation: "Watching 4K on a small screen is wasteful - you can't see the difference but it uses 3x more data and energy than 1080p."
+    sentence: "Using _____ algorithms can reduce CPU usage and save energy.",
+    blank: "efficient",
+    options: [
+      { id: 'a', text: 'efficient', correct: true },
+      { id: 'b', text: 'complex', correct: false },
+      { id: 'c', text: 'nested', correct: false }
+    ],
+    explanation: "Efficient algorithms minimize computation cycles, reducing CPU usage and energy consumption significantly."
   },
   {
-    situation: "Deleting old emails and cleaning up your inbox regularly",
-    correctAnswer: true, // KEEP - Good habit
-    explanation: "Stored emails require server energy to maintain. Deleting unnecessary emails reduces data center storage and energy consumption."
+    sentence: "Lazy loading images means they load only when _____.",
+    blank: "visible",
+    options: [
+      { id: 'a', text: 'visible', correct: true },
+      { id: 'b', text: 'downloaded', correct: false },
+      { id: 'c', text: 'clicked', correct: false }
+    ],
+    explanation: "Lazy loading defers image loading until they enter the viewport, saving bandwidth and processing for unseen content."
   },
   {
-    situation: "Using dark mode on OLED screens to save battery",
-    correctAnswer: true, // KEEP - Good habit
-    explanation: "On OLED screens, dark pixels consume less energy. Dark mode can reduce battery usage by up to 60% on these displays."
+    sentence: "Minifying code removes _____ to reduce file size.",
+    blank: "whitespace",
+    options: [
+      { id: 'a', text: 'functions', correct: false },
+      { id: 'b', text: 'whitespace', correct: true },
+      { id: 'c', text: 'variables', correct: false }
+    ],
+    explanation: "Minification removes unnecessary whitespace, comments, and formatting, reducing file size and transfer energy."
   },
   {
-    situation: "Leaving multiple browser tabs open with videos and animations running",
-    correctAnswer: false, // TRASH - Bad habit
-    explanation: "Each active tab consumes RAM and processing power continuously. Closing unused tabs significantly reduces your device's energy consumption."
+    sentence: "Server-side _____ reduces the number of database queries.",
+    blank: "caching",
+    options: [
+      { id: 'a', text: 'rendering', correct: false },
+      { id: 'b', text: 'caching', correct: true },
+      { id: 'c', text: 'encryption', correct: false }
+    ],
+    explanation: "Caching stores frequently accessed data in memory, avoiding repeated database queries and reducing server energy consumption."
   },
   {
-    situation: "Blocking auto-play videos and disabling auto-loading of media content",
-    correctAnswer: true, // KEEP - Good habit - CRITICAL POINT ±3
-    explanation: "Auto-play features force content to load and play without your request, consuming massive unnecessary bandwidth, processing power, and server resources globally. Blocking them is one of the most impactful eco-friendly digital behaviors."
+    sentence: "Using _____ databases can significantly reduce energy consumption for read-heavy applications.",
+    blank: "NoSQL",
+    options: [
+      { id: 'a', text: 'relational', correct: false },
+      { id: 'b', text: 'NoSQL', correct: true },
+      { id: 'c', text: 'local', correct: false }
+    ],
+    explanation: "NoSQL databases like Redis or MongoDB are optimized for specific use cases and can be much more energy-efficient than traditional relational databases for read-heavy workloads. This is a critical optimization point."
   },
   {
-    situation: "Uploading full-resolution 10MB photos directly to social media",
-    correctAnswer: false, // TRASH - Bad habit
-    explanation: "Social media compresses images anyway. Compressing photos before uploading saves bandwidth and storage energy on both your device and servers."
+    sentence: "Code _____ helps identify and remove unused dependencies.",
+    blank: "auditing",
+    options: [
+      { id: 'a', text: 'compilation', correct: false },
+      { id: 'b', text: 'auditing', correct: true },
+      { id: 'c', text: 'obfuscation', correct: false }
+    ],
+    explanation: "Regular code auditing detects bloat from unused libraries, reducing bundle size and energy needed for downloads."
   },
   {
-    situation: "Preferring WiFi over mobile data when available",
-    correctAnswer: true, // KEEP - Good habit
-    explanation: "WiFi is 5-10x more energy-efficient than mobile data networks. Mobile towers and cellular infrastructure consume significantly more energy per data unit."
+    sentence: "Using CDNs reduces _____ by serving content from nearby servers.",
+    blank: "latency",
+    options: [
+      { id: 'a', text: 'security', correct: false },
+      { id: 'b', text: 'latency', correct: true },
+      { id: 'c', text: 'storage', correct: false }
+    ],
+    explanation: "Content Delivery Networks place data closer to users, reducing transmission distance and energy consumption."
   },
   {
-    situation: "Storing everything in the cloud 'just in case' without deleting old files",
-    correctAnswer: false, // TRASH - Bad habit
-    explanation: "Cloud storage isn't magic - it relies on massive data centers consuming enormous electricity for servers, cooling, and operations. Clean up unused files regularly."
+    sentence: "Avoiding _____ loops prevents unnecessary CPU cycles.",
+    blank: "infinite",
+    options: [
+      { id: 'a', text: 'nested', correct: false },
+      { id: 'b', text: 'infinite', correct: true },
+      { id: 'c', text: 'async', correct: false }
+    ],
+    explanation: "Infinite loops consume CPU resources indefinitely, wasting massive amounts of energy. Proper loop design is essential."
   },
   {
-    situation: "Binge-watching series in standard definition instead of HD when quality difference is minimal",
-    correctAnswer: true, // KEEP - Good habit
-    explanation: "Streaming in SD uses 50-70% less bandwidth and energy than HD. On mobile screens or background viewing, the quality difference is negligible but the environmental impact is huge."
+    sentence: "Using _____ compression reduces image file sizes by up to 90%.",
+    blank: "WebP",
+    options: [
+      { id: 'a', text: 'JPEG', correct: false },
+      { id: 'b', text: 'WebP', correct: true },
+      { id: 'c', text: 'PNG', correct: false }
+    ],
+    explanation: "WebP is a modern format offering superior compression compared to JPEG/PNG, significantly reducing bandwidth and storage energy."
   },
   {
-    situation: "Using ad blockers to reduce unnecessary content loading",
-    correctAnswer: true, // KEEP - Good habit - CRITICAL POINT ±3
-    explanation: "Ads and trackers load massive amounts of additional scripts, images, videos and tracking code. Blocking them can reduce page load data by 50-60%, significantly cutting your digital carbon footprint."
+    sentence: "Implementing _____ rendering can reduce server load by moving computation to the client.",
+    blank: "client-side",
+    options: [
+      { id: 'a', text: 'server-side', correct: false },
+      { id: 'b', text: 'client-side', correct: true },
+      { id: 'c', text: 'hybrid', correct: false }
+    ],
+    explanation: "Client-side rendering offloads work from energy-intensive servers to user devices, distributing the computational load. However, this must be balanced carefully - it's a critical architectural decision that impacts overall system efficiency."
   }
 ])
 
-const currentSituation = computed(() => situations.value[currentSituationIndex.value])
-const isCriticalPoint = computed(() => currentSituationIndex.value === 4 || currentSituationIndex.value === 9)
+const currentQuestion = computed(() => questions.value[currentQuestionIndex.value])
+const isCriticalPoint = computed(() => currentQuestionIndex.value === 4 || currentQuestionIndex.value === 9)
+
+const displaySentence = computed(() => {
+  const sentence = currentQuestion.value.sentence
+  const blank = currentQuestion.value.blank
+  
+  if (!hasAnswered.value && selectedAnswer.value !== null) {
+    const selectedOption = currentQuestion.value.options.find(opt => opt.id === selectedAnswer.value)
+    return sentence.replace('_____', `<span class="blank selected-blank">${selectedOption.text}</span>`)
+  }
+  
+  if (hasAnswered.value) {
+    return sentence.replace('_____', `<span class="blank correct-blank">${blank}</span>`)
+  }
+  
+  return sentence.replace('_____', '<span class="blank">_____</span>')
+})
 
 const startTimer = () => {
   timeLeft.value = 20
@@ -85,9 +151,9 @@ const stopTimer = () => {
   }
 }
 
-const selectAnswer = (answer) => {
+const selectAnswer = (optionId) => {
   if (hasAnswered.value) return
-  selectedAnswer.value = answer
+  selectedAnswer.value = optionId
 }
 
 const submitAnswer = () => {
@@ -96,33 +162,33 @@ const submitAnswer = () => {
   hasAnswered.value = true
   stopTimer()
   
-  const isCorrect = selectedAnswer.value === currentSituation.value.correctAnswer
+  const selectedOption = currentQuestion.value.options.find(opt => opt.id === selectedAnswer.value)
   const points = isCriticalPoint.value ? 3 : 1
   
-  if (isCorrect) {
-    score.value -= points // Bonne réponse: -1 ou -3 carbon
+  if (selectedOption.correct) {
+    score.value -= points
   } else {
-    score.value += points // Mauvaise réponse: +1 ou +3 carbon
+    score.value += points
   }
   
   setTimeout(() => {
-    nextSituation()
+    nextQuestion()
   }, 5000)
 }
 
 const autoSubmitWrong = () => {
   hasAnswered.value = true
   const points = isCriticalPoint.value ? 3 : 1
-  score.value += points // Temps écoulé = mauvaise réponse
+  score.value += points
   
   setTimeout(() => {
-    nextSituation()
+    nextQuestion()
   }, 5000)
 }
 
-const nextSituation = () => {
-  if (currentSituationIndex.value < situations.value.length - 1) {
-    currentSituationIndex.value++
+const nextQuestion = () => {
+  if (currentQuestionIndex.value < questions.value.length - 1) {
+    currentQuestionIndex.value++
     selectedAnswer.value = null
     hasAnswered.value = false
     startTimer()
@@ -132,16 +198,16 @@ const nextSituation = () => {
   }
 }
 
-const getButtonClass = (answer) => {
+const getOptionClass = (option) => {
   if (!hasAnswered.value) {
-    return selectedAnswer.value === answer ? 'selected' : ''
+    return selectedAnswer.value === option.id ? 'selected' : ''
   }
   
-  if (answer === currentSituation.value.correctAnswer) {
+  if (option.correct) {
     return 'correct'
   }
   
-  if (selectedAnswer.value === answer && answer !== currentSituation.value.correctAnswer) {
+  if (selectedAnswer.value === option.id && !option.correct) {
     return 'incorrect'
   }
   
@@ -150,7 +216,7 @@ const getButtonClass = (answer) => {
 
 const finalMessage = computed(() => {
   if (score.value < 0) {
-    return "Bravo !"
+    return "Bravo ! 🎉"
   } else {
     return "Shame..."
   }
@@ -169,16 +235,16 @@ onUnmounted(() => {
 <div class="minigame-page">
   <div class="minigame-container">
     <header class="minigame-header">
-      <h1>Zone 2 - Trash or Keep</h1>
-      <p class="subtitle">UX & Digital Behaviors</p>
+      <h1>Zone 3 - Fill the Blank</h1>
+      <p class="subtitle">Code & Development</p>
     </header>
     
     <div v-if="!gameCompleted" class="game-content">
       <!-- Progress Bar -->
       <div class="progress-section">
-        <p class="progress-text">Situation {{ currentSituationIndex + 1 }} / {{ situations.length }}</p>
+        <p class="progress-text">Question {{ currentQuestionIndex + 1 }} / {{ questions.length }}</p>
         <div class="progress-bar">
-          <div class="progress-fill" :style="{ width: ((currentSituationIndex + 1) / situations.length * 100) + '%' }"></div>
+          <div class="progress-fill" :style="{ width: ((currentQuestionIndex + 1) / questions.length * 100) + '%' }"></div>
         </div>
       </div>
 
@@ -196,36 +262,28 @@ onUnmounted(() => {
         <p v-if="isCriticalPoint" class="critical-badge">⚡ Critical Point: +3 / -3</p>
       </div>
 
-      <!-- Situation -->
-      <div class="situation-section">
-        <h2 class="situation-text">{{ currentSituation.situation }}</h2>
+      <!-- Sentence with Blank -->
+      <div class="sentence-section">
+        <p class="sentence-text" v-html="displaySentence"></p>
       </div>
 
-      <!-- Trash or Keep Buttons -->
-      <div class="answer-section">
+      <!-- Word Options -->
+      <div class="options-section">
         <button 
-          class="answer-button trash-button"
-          :class="getButtonClass(false)"
-          @click="selectAnswer(false)"
+          v-for="option in currentQuestion.options" 
+          :key="option.id"
+          class="option-button"
+          :class="getOptionClass(option)"
+          @click="selectAnswer(option.id)"
           :disabled="hasAnswered"
         >
-          <span class="button-icon">🗑️</span>
-          <span class="button-text">TRASH</span>
-        </button>
-        <button 
-          class="answer-button keep-button"
-          :class="getButtonClass(true)"
-          @click="selectAnswer(true)"
-          :disabled="hasAnswered"
-        >
-          <span class="button-icon">✅</span>
-          <span class="button-text">KEEP</span>
+          <span class="option-text">{{ option.text }}</span>
         </button>
       </div>
 
       <!-- Explanation (shown after answer) -->
       <div v-if="hasAnswered" class="explanation-section">
-        <p class="explanation">{{ currentSituation.explanation }}</p>
+        <p class="explanation">{{ currentQuestion.explanation }}</p>
       </div>
 
       <!-- Submit Button -->
@@ -415,77 +473,103 @@ onUnmounted(() => {
   50% { opacity: 0.7; }
 }
 
-.situation-section {
+.sentence-section {
   background-color: white;
-  padding: 20px;
+  padding: 25px 20px;
   border-radius: 12px;
   margin-bottom: 25px;
-  border-left: 4px solid #cfe8a6;
-  border-right: 4px solid #cfe8a6;
+  border-left: 4px solid #e0c5fc;
+  border-right: 4px solid #e0c5fc;
 }
 
-.situation-text {
-  font-size: 13px;
+.sentence-text {
+  font-size: 14px;
   color: #333;
-  line-height: 1.6;
+  line-height: 1.8;
   margin: 0;
-  font-weight: 600;
+  font-weight: 500;
   text-align: center;
 }
 
-.answer-section {
+.blank {
+  font-weight: 700;
+  color: #2d5016;
+  padding: 2px 12px;
+  border-radius: 6px;
+  background-color: #f0f0f0;
+  border-bottom: 2px dashed #b4d288;
+  display: inline-block;
+  min-width: 100px;
+  text-align: center;
+}
+
+.selected-blank {
+  background-color: #e8f3dc;
+  border-bottom: 2px solid #b4d288;
+  color: #2d5016;
+}
+
+.correct-blank {
+  background-color: #e8f5e9;
+  border-bottom: 2px solid #4caf50;
+  color: #2d5016;
+}
+
+.options-section {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
   margin-bottom: 20px;
 }
 
-.answer-button {
+.option-button {
   background-color: white;
-  border: 3px solid #e0e0e0;
-  border-radius: 16px;
-  padding: 20px 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 15px 10px;
   cursor: pointer;
   transition: all 0.2s ease;
   font-family: 'Montserrat', sans-serif;
+  text-align: center;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.answer-button:hover:not(:disabled) {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+.option-button:hover:not(:disabled) {
+  border-color: #b4d288;
+  background-color: #f8fdf4;
+  transform: translateY(-2px);
 }
 
-.answer-button.selected {
+.option-button.selected {
   border-color: #b4d288;
   background-color: #e8f3dc;
+  border-width: 3px;
 }
 
-.answer-button.correct {
+.option-button.correct {
   border-color: #4caf50;
   background-color: #e8f5e9;
+  border-width: 3px;
 }
 
-.answer-button.incorrect {
+.option-button.incorrect {
   border-color: #f44336;
   background-color: #ffebee;
+  border-width: 3px;
 }
 
-.answer-button:disabled {
+.option-button:disabled {
   cursor: not-allowed;
 }
 
-.button-icon {
-  font-size: 32px;
-}
-
-.button-text {
-  font-family: 'Moon Get', sans-serif;
-  font-size: 14px;
-  color: #2d5016;
+.option-text {
+  font-size: 12px;
+  color: #333;
+  font-weight: 600;
+  line-height: 1.4;
 }
 
 .explanation-section {
@@ -509,7 +593,6 @@ onUnmounted(() => {
   margin: 0;
   line-height: 1.5;
   font-style: italic;
-  text-align: center;
 }
 
 .submit-section {
@@ -557,8 +640,8 @@ onUnmounted(() => {
   padding: 30px 20px;
   border-radius: 16px;
   text-align: center;
-  border-left: 4px solid #cfe8a6;
-  border-right: 4px solid #cfe8a6;
+  border-left: 4px solid #e0c5fc;
+  border-right: 4px solid #e0c5fc;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 }
 
