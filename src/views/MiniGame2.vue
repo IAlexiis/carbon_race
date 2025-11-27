@@ -209,7 +209,7 @@ onUnmounted(() => {
           @click="selectAnswer(false)"
           :disabled="hasAnswered"
         >
-          <span class="button-icon">🗑️</span>
+          <img src="../assets/images/bean.png" alt="" class="button-icon-img">
           <span class="button-text">TRASH</span>
         </button>
         <button 
@@ -218,13 +218,14 @@ onUnmounted(() => {
           @click="selectAnswer(true)"
           :disabled="hasAnswered"
         >
-          <span class="button-icon">✅</span>
+          <img src="../assets/images/check.png" alt="" class="button-icon-img">
           <span class="button-text">KEEP</span>
         </button>
       </div>
 
       <!-- Explanation (shown after answer) -->
       <div v-if="hasAnswered" class="explanation-section">
+        <img src="../assets/images/light.png" alt="" class="light-icon">
         <p class="explanation">{{ currentSituation.explanation }}</p>
       </div>
 
@@ -243,11 +244,7 @@ onUnmounted(() => {
     <!-- Game Completed -->
     <div v-else class="completion-section">
       <div class="completion-card">
-        <div class="completion-title-wrapper">
-          <h2 class="completion-title">{{ finalMessage }}</h2>
-          <img v-if="score < 0" src="../assets/images/bravo.png" alt="" class="completion-icon">
-          <img v-else src="../assets/images/cross.png" alt="" class="completion-icon">
-        </div>
+        <h2 class="completion-title">{{ finalMessage }}</h2>
         <div class="final-score">
           <p class="final-score-label">Final Carbon Score</p>
           <p class="final-score-value" :class="{ 'positive': score > 0, 'negative': score < 0, 'neutral': score === 0 }">
@@ -478,8 +475,9 @@ onUnmounted(() => {
   cursor: not-allowed;
 }
 
-.button-icon {
-  font-size: 32px;
+.button-icon-img {
+  width: 50px;
+  height: 50px;
 }
 
 .button-text {
@@ -496,11 +494,21 @@ onUnmounted(() => {
   border-radius: 10px;
   margin-bottom: 20px;
   animation: fadeIn 0.3s ease;
+  position: relative;
 }
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+.light-icon {
+  position: absolute;
+  top: -15px;
+  left: -15px;
+  width: 35px;
+  height: 35px;
+  transform: rotate(20deg);
 }
 
 .explanation {
@@ -562,24 +570,11 @@ onUnmounted(() => {
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.completion-title-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
 .completion-title {
   font-family: 'Moon Get', sans-serif;
   font-size: 20px;
   color: #2d5016;
-  margin: 0;
-}
-
-.completion-icon {
-  width: 32px;
-  height: 32px;
+  margin: 0 0 20px 0;
 }
 
 .final-score {

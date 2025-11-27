@@ -252,6 +252,7 @@ onUnmounted(() => {
       </div>
 
       <div v-if="hasAnswered" class="explanation-section">
+        <img src="../assets/images/light.png" alt="" class="light-icon">
         <p class="explanation">{{ currentQuestion.explanation }}</p>
       </div>
 
@@ -519,11 +520,21 @@ onUnmounted(() => {
   border-radius: 10px;
   margin-bottom: 20px;
   animation: fadeIn 0.3s ease;
+  position: relative;
 }
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+.light-icon {
+  position: absolute;
+  top: -15px;
+  left: -15px;
+  width: 35px;
+  height: 35px;
+  transform: rotate(20deg);
 }
 
 .explanation {
@@ -585,24 +596,11 @@ onUnmounted(() => {
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.completion-title-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
 .completion-title {
   font-family: 'Moon Get', sans-serif;
   font-size: 20px;
   color: #2d5016;
-  margin: 0;
-}
-
-.completion-icon {
-  width: 32px;
-  height: 32px;
+  margin: 0 0 20px 0;
 }
 
 .final-score {
