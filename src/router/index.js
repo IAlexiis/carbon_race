@@ -5,6 +5,7 @@ import Answers from '../views/Answers.vue'
 import MiniGame1 from '../views/MiniGame1.vue'
 import MiniGame2 from '../views/MiniGame2.vue'
 import MiniGame3 from '../views/MiniGame3.vue'
+import MiniGame4 from '../views/MiniGame4.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,6 +39,11 @@ const router = createRouter({
       path: '/minigame3',
       name: 'minigame3',
       component: MiniGame3
+    },
+    {
+      path: '/minigame4',
+      name: 'minigame4',
+      component: MiniGame4
     }
   ]
 })

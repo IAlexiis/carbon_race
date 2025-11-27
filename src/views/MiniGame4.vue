@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 
-const currentSituationIndex = ref(0)
+const currentQuestionIndex = ref(0)
 const selectedAnswer = ref(null)
 const hasAnswered = ref(false)
 const score = ref(0)
@@ -9,61 +9,81 @@ const timeLeft = ref(20)
 let timer = null
 const gameCompleted = ref(false)
 
-const situations = ref([
+const questions = ref([
   {
-    situation: "Watching videos in 4K quality on a small smartphone screen",
-    correctAnswer: false, // TRASH - Bad habit
-    explanation: "Watching 4K on a small screen is wasteful - you can't see the difference but it uses 3x more data and energy than 1080p."
+    question: "Which consumes more energy?",
+    optionA: "Streaming 1 hour of HD video",
+    optionB: "Sending 1000 emails",
+    correctAnswer: 'a', // A consumes more
+    explanation: "Streaming 1 hour of HD video uses approximately 3GB of data and significant server processing, far exceeding the energy cost of sending 1000 text emails."
   },
   {
-    situation: "Deleting old emails and cleaning up your inbox regularly",
-    correctAnswer: true, // KEEP - Good habit
-    explanation: "Stored emails require server energy to maintain. Deleting unnecessary emails reduces data center storage and energy consumption."
+    question: "Which generates more CO2?",
+    optionA: "Storing 100GB in the cloud for 1 year",
+    optionB: "Making 10 Google searches",
+    correctAnswer: 'a', // A generates more
+    explanation: "Cloud storage requires constant server operation, cooling, and redundancy for an entire year, consuming far more energy than a few quick searches."
   },
   {
-    situation: "Using dark mode on OLED screens to save battery",
-    correctAnswer: true, // KEEP - Good habit
-    explanation: "On OLED screens, dark pixels consume less energy. Dark mode can reduce battery usage by up to 60% on these displays."
+    question: "Which uses more server resources?",
+    optionA: "Hosting a simple static website",
+    optionB: "Running a Bitcoin mining operation for 1 hour",
+    correctAnswer: 'b', // B uses more
+    explanation: "Bitcoin mining requires massive computational power and energy, consuming thousands of times more resources than hosting a simple website."
   },
   {
-    situation: "Leaving multiple browser tabs open with videos and animations running",
-    correctAnswer: false, // TRASH - Bad habit
-    explanation: "Each active tab consumes RAM and processing power continuously. Closing unused tabs significantly reduces your device's energy consumption."
+    question: "Which has a bigger carbon footprint?",
+    optionA: "Watching 4K video on Netflix",
+    optionB: "Watching 480p video on Netflix",
+    correctAnswer: 'a', // A has bigger footprint
+    explanation: "4K video requires 4-7x more bandwidth and data than 480p, resulting in significantly higher energy consumption across networks and data centers."
   },
   {
-    situation: "Blocking auto-play videos and disabling auto-loading of media content",
-    correctAnswer: true, // KEEP - Good habit - CRITICAL POINT ±3
-    explanation: "Auto-play features force content to load and play without your request, consuming massive unnecessary bandwidth, processing power, and server resources globally. Blocking them is one of the most impactful eco-friendly digital behaviors."
+    question: "Which data center practice saves the MOST energy?",
+    optionA: "Using renewable energy sources",
+    optionB: "Turning off unused servers (10% of fleet)",
+    correctAnswer: 'a', // A saves most - CRITICAL POINT ±3
+    explanation: "While eliminating zombie servers (inactive but powered) saves significant energy, switching an entire data center to renewable energy has a far greater total impact on carbon emissions. This is a critical infrastructure decision."
   },
   {
-    situation: "Uploading full-resolution 10MB photos directly to social media",
-    correctAnswer: false, // TRASH - Bad habit
-    explanation: "Social media compresses images anyway. Compressing photos before uploading saves bandwidth and storage energy on both your device and servers."
+    question: "Which generates more data traffic?",
+    optionA: "Video call for 1 hour",
+    optionB: "Browsing 100 web pages",
+    correctAnswer: 'a', // A generates more
+    explanation: "A 1-hour video call can use 1-2GB of data, while browsing 100 pages typically uses only 100-200MB depending on content."
   },
   {
-    situation: "Preferring WiFi over mobile data when available",
-    correctAnswer: true, // KEEP - Good habit
-    explanation: "WiFi is 5-10x more energy-efficient than mobile data networks. Mobile towers and cellular infrastructure consume significantly more energy per data unit."
+    question: "Which is more energy-efficient?",
+    optionA: "Downloading a 2GB movie once",
+    optionB: "Streaming the same 2GB movie 3 times",
+    correctAnswer: 'a', // A is more efficient
+    explanation: "Downloading once and watching offline saves energy by avoiding repeated data transmission through networks and servers."
   },
   {
-    situation: "Storing everything in the cloud 'just in case' without deleting old files",
-    correctAnswer: false, // TRASH - Bad habit
-    explanation: "Cloud storage isn't magic - it relies on massive data centers consuming enormous electricity for servers, cooling, and operations. Clean up unused files regularly."
+    question: "Which cooling method uses less energy?",
+    optionA: "Air conditioning for data centers",
+    optionB: "Free air cooling (using outside air)",
+    correctAnswer: 'b', // B uses less
+    explanation: "Free air cooling, when climate permits, uses up to 90% less energy than traditional air conditioning systems by leveraging natural temperature differences."
   },
   {
-    situation: "Binge-watching series in standard definition instead of HD when quality difference is minimal",
-    correctAnswer: true, // KEEP - Good habit
-    explanation: "Streaming in SD uses 50-70% less bandwidth and energy than HD. On mobile screens or background viewing, the quality difference is negligible but the environmental impact is huge."
+    question: "Which email action saves the most storage energy?",
+    optionA: "Deleting 1000 old emails with attachments",
+    optionB: "Unsubscribing from 50 newsletters",
+    correctAnswer: 'a', // A saves most
+    explanation: "Deleting existing data (especially large attachments) immediately reduces storage needs. Unsubscribing prevents future accumulation but has less immediate impact."
   },
   {
-    situation: "Using ad blockers to reduce unnecessary content loading",
-    correctAnswer: true, // KEEP - Good habit - CRITICAL POINT ±3
-    explanation: "Ads and trackers load massive amounts of additional scripts, images, videos and tracking code. Blocking them can reduce page load data by 50-60%, significantly cutting your digital carbon footprint."
+    question: "Which approach reduces global data center energy the MOST?",
+    optionA: "Improving server utilization from 20% to 80%",
+    optionB: "Reducing cooling temperature by 2°C",
+    correctAnswer: 'a', // A reduces most - CRITICAL POINT ±3
+    explanation: "Server utilization is the #1 energy waste in data centers. Improving from typical 20% to optimal 80% can reduce energy consumption by 50-60% - far more than any cooling optimization. This represents a fundamental shift in data center efficiency."
   }
 ])
 
-const currentSituation = computed(() => situations.value[currentSituationIndex.value])
-const isCriticalPoint = computed(() => currentSituationIndex.value === 4 || currentSituationIndex.value === 9)
+const currentQuestion = computed(() => questions.value[currentQuestionIndex.value])
+const isCriticalPoint = computed(() => currentQuestionIndex.value === 4 || currentQuestionIndex.value === 9)
 
 const startTimer = () => {
   timeLeft.value = 20
@@ -96,33 +116,33 @@ const submitAnswer = () => {
   hasAnswered.value = true
   stopTimer()
   
-  const isCorrect = selectedAnswer.value === currentSituation.value.correctAnswer
+  const isCorrect = selectedAnswer.value === currentQuestion.value.correctAnswer
   const points = isCriticalPoint.value ? 3 : 1
   
   if (isCorrect) {
-    score.value -= points // Bonne réponse: -1 ou -3 carbon
+    score.value -= points
   } else {
-    score.value += points // Mauvaise réponse: +1 ou +3 carbon
+    score.value += points
   }
   
   setTimeout(() => {
-    nextSituation()
+    nextQuestion()
   }, 5000)
 }
 
 const autoSubmitWrong = () => {
   hasAnswered.value = true
   const points = isCriticalPoint.value ? 3 : 1
-  score.value += points // Temps écoulé = mauvaise réponse
+  score.value += points
   
   setTimeout(() => {
-    nextSituation()
+    nextQuestion()
   }, 5000)
 }
 
-const nextSituation = () => {
-  if (currentSituationIndex.value < situations.value.length - 1) {
-    currentSituationIndex.value++
+const nextQuestion = () => {
+  if (currentQuestionIndex.value < questions.value.length - 1) {
+    currentQuestionIndex.value++
     selectedAnswer.value = null
     hasAnswered.value = false
     startTimer()
@@ -132,16 +152,16 @@ const nextSituation = () => {
   }
 }
 
-const getButtonClass = (answer) => {
+const getButtonClass = (option) => {
   if (!hasAnswered.value) {
-    return selectedAnswer.value === answer ? 'selected' : ''
+    return selectedAnswer.value === option ? 'selected' : ''
   }
   
-  if (answer === currentSituation.value.correctAnswer) {
+  if (option === currentQuestion.value.correctAnswer) {
     return 'correct'
   }
   
-  if (selectedAnswer.value === answer && answer !== currentSituation.value.correctAnswer) {
+  if (selectedAnswer.value === option && option !== currentQuestion.value.correctAnswer) {
     return 'incorrect'
   }
   
@@ -150,7 +170,7 @@ const getButtonClass = (answer) => {
 
 const finalMessage = computed(() => {
   if (score.value < 0) {
-    return "Bravo !"
+    return "Bravo"
   } else {
     return "Shame..."
   }
@@ -169,16 +189,16 @@ onUnmounted(() => {
 <div class="minigame-page">
   <div class="minigame-container">
     <header class="minigame-header">
-      <h1>Zone 2 - Trash or Keep</h1>
-      <p class="subtitle">UX & Digital Behaviors</p>
+      <h1>Zone 4 - Which is Bigger?</h1>
+      <p class="subtitle">Servers & Data</p>
     </header>
     
     <div v-if="!gameCompleted" class="game-content">
       <!-- Progress Bar -->
       <div class="progress-section">
-        <p class="progress-text">Situation {{ currentSituationIndex + 1 }} / {{ situations.length }}</p>
+        <p class="progress-text">Question {{ currentQuestionIndex + 1 }} / {{ questions.length }}</p>
         <div class="progress-bar">
-          <div class="progress-fill" :style="{ width: ((currentSituationIndex + 1) / situations.length * 100) + '%' }"></div>
+          <div class="progress-fill" :style="{ width: ((currentQuestionIndex + 1) / questions.length * 100) + '%' }"></div>
         </div>
       </div>
 
@@ -196,37 +216,42 @@ onUnmounted(() => {
         <p v-if="isCriticalPoint" class="critical-badge">⚡ Critical Point: +3 / -3</p>
       </div>
 
-      <!-- Situation -->
-      <div class="situation-section">
-        <h2 class="situation-text">{{ currentSituation.situation }}</h2>
+      <!-- Question -->
+      <div class="question-section">
+        <h2 class="question-title">{{ currentQuestion.question }}</h2>
       </div>
 
-      <!-- Trash or Keep Buttons -->
-      <div class="answer-section">
+      <!-- Comparison Buttons -->
+      <div class="comparison-section">
         <button 
-          class="answer-button trash-button"
-          :class="getButtonClass(false)"
-          @click="selectAnswer(false)"
+          class="comparison-button option-a"
+          :class="getButtonClass('a')"
+          @click="selectAnswer('a')"
           :disabled="hasAnswered"
         >
-          <img src="../assets/images/bean.png" alt="" class="button-icon-img">
-          <span class="button-text">TRASH</span>
+          <span class="option-label">A</span>
+          <span class="option-content">{{ currentQuestion.optionA }}</span>
         </button>
+
+        <div class="vs-separator">
+          <span class="vs-text">VS</span>
+        </div>
+
         <button 
-          class="answer-button keep-button"
-          :class="getButtonClass(true)"
-          @click="selectAnswer(true)"
+          class="comparison-button option-b"
+          :class="getButtonClass('b')"
+          @click="selectAnswer('b')"
           :disabled="hasAnswered"
         >
-          <img src="../assets/images/check.png" alt="" class="button-icon-img">
-          <span class="button-text">KEEP</span>
+          <span class="option-label">B</span>
+          <span class="option-content">{{ currentQuestion.optionB }}</span>
         </button>
       </div>
 
       <!-- Explanation (shown after answer) -->
       <div v-if="hasAnswered" class="explanation-section">
         <img src="../assets/images/light.png" alt="" class="light-icon">
-        <p class="explanation">{{ currentSituation.explanation }}</p>
+        <p class="explanation">{{ currentQuestion.explanation }}</p>
       </div>
 
       <!-- Submit Button -->
@@ -412,78 +437,105 @@ onUnmounted(() => {
   50% { opacity: 0.7; }
 }
 
-.situation-section {
+.question-section {
   background-color: white;
   padding: 20px;
   border-radius: 12px;
   margin-bottom: 25px;
-  border-left: 4px solid #cfe8a6;
-  border-right: 4px solid #cfe8a6;
+  border-left: 4px solid #f7a88a;
+  border-right: 4px solid #f7a88a;
 }
 
-.situation-text {
-  font-size: 13px;
+.question-title {
+  font-size: 14px;
   color: #333;
   line-height: 1.6;
   margin: 0;
-  font-weight: 600;
+  font-weight: 700;
   text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.answer-section {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+.comparison-section {
+  display: flex;
+  flex-direction: column;
   gap: 15px;
   margin-bottom: 20px;
+  align-items: center;
 }
 
-.answer-button {
+.comparison-button {
   background-color: white;
   border: 3px solid #e0e0e0;
   border-radius: 16px;
-  padding: 20px 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
+  padding: 20px;
   cursor: pointer;
   transition: all 0.2s ease;
   font-family: 'Montserrat', sans-serif;
+  width: 100%;
+  max-width: 350px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
 }
 
-.answer-button:hover:not(:disabled) {
+.comparison-button:hover:not(:disabled) {
   transform: translateY(-3px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
 
-.answer-button.selected {
+.comparison-button.selected {
   border-color: #b4d288;
   background-color: #e8f3dc;
 }
 
-.answer-button.correct {
+.comparison-button.correct {
   border-color: #4caf50;
   background-color: #e8f5e9;
 }
 
-.answer-button.incorrect {
+.comparison-button.incorrect {
   border-color: #f44336;
   background-color: #ffebee;
 }
 
-.answer-button:disabled {
+.comparison-button:disabled {
   cursor: not-allowed;
 }
 
-.button-icon-img {
-  width: 50px;
-  height: 50px;
+.option-label {
+  font-family: 'Moon Get', sans-serif;
+  font-size: 18px;
+  color: #2d5016;
+  font-weight: 900;
 }
 
-.button-text {
+.option-content {
+  font-size: 12px;
+  color: #333;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.vs-separator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 5px 0;
+}
+
+.vs-text {
   font-family: 'Moon Get', sans-serif;
-  font-size: 14px;
+  font-size: 16px;
   color: #2d5016;
+  background-color: white;
+  padding: 8px 20px;
+  border-radius: 20px;
+  border: 2px solid #b4d288;
+  font-weight: 900;
 }
 
 .explanation-section {
@@ -565,8 +617,8 @@ onUnmounted(() => {
   padding: 30px 20px;
   border-radius: 16px;
   text-align: center;
-  border-left: 4px solid #cfe8a6;
-  border-right: 4px solid #cfe8a6;
+  border-left: 4px solid #f7a88a;
+  border-right: 4px solid #f7a88a;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 }
 

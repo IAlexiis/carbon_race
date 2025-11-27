@@ -356,7 +356,7 @@ onUnmounted(() => {
   font-family: 'Moon Get', sans-serif;
   font-size: 20px;
   color: #2d5016;
-  margin: 0 0 5px 0;
+  margin: 0 0 15px 0;
 }
 
 .subtitle {
